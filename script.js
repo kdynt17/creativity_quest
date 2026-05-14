@@ -15,7 +15,6 @@ const hints = [
 
 const zones = Array.from(document.querySelectorAll("[data-zone]"));
 const scaleWrap = document.querySelector(".scale-wrap");
-const resultCard = document.querySelector("#resultCard");
 const usesLeft = document.querySelector("#usesLeft");
 const weighButton = document.querySelector("#weighButton");
 const answerButton = document.querySelector("#answerButton");
@@ -56,10 +55,8 @@ function startGame() {
   renderHints();
   resetScaleTilt();
   updateUses();
-  resultCard.textContent = "먼저 같은 개수의 추를 양쪽 접시에 올려 보자.";
   weighButton.disabled = false;
   answerButton.disabled = false;
-  showToast("새 문제가 시작됐다. 이번에는 2번 안에 찾을 수 있다.");
 }
 
 function renderWeights() {
@@ -125,7 +122,6 @@ function endDrag(event) {
   dragged.element.removeEventListener("pointermove", moveDrag);
   dragged = null;
   renderWeights();
-  resultCard.textContent = "추를 다시 배치했다. 측정을 눌러 저울의 기울기를 확인하자.";
 }
 
 function findDropZone(x, y) {
@@ -155,7 +151,7 @@ function weigh() {
   const right = getWeightsIn("right");
   if (left.length === 0 || right.length === 0 || left.length !== right.length) {
     revealHint();
-    showToast("양쪽 접시에 같은 개수의 추를 올려야 한다.");
+    showToast("저울이 움직이지 않는다.");
     return;
   }
 
@@ -165,13 +161,10 @@ function weigh() {
 
   if (leftSum < rightSum) {
     tiltScale("tilt-left-light");
-    resultCard.textContent = "저울이 기울었다. 올라간 접시에 있는 추를 후보로 생각해 보자.";
   } else if (rightSum < leftSum) {
     tiltScale("tilt-right-light");
-    resultCard.textContent = "저울이 기울었다. 올라간 접시에 있는 추를 후보로 생각해 보자.";
   } else {
     resetScaleTilt();
-    resultCard.textContent = "저울이 수평이다. 저울에 올리지 않은 추 중에서 후보를 찾아보자.";
   }
 
   updateUses();
@@ -185,19 +178,17 @@ function checkAnswer() {
   const answer = getWeightsIn("answer");
   if (answer.length !== 1) {
     revealHint();
-    showToast("정답 칸에는 추 1개만 놓아야 한다.");
+    showToast("정답 추를 하나만 놓아 주세요.");
     return;
   }
 
   if (answer[0].id === secretId) {
     gameOver = true;
-    resultCard.textContent = `정답! ${secretId}번 추가 가벼운 추였다.`;
     showToast("정답! 축하합니다!");
     launchConfetti();
   } else {
     gameOver = true;
     revealHint();
-    resultCard.textContent = `오답. ${answer[0].id}번은 가벼운 추가 아니다. 재시작해서 다시 도전하자.`;
     showToast("오답입니다. 재시작 버튼을 눌러 다시 해보자.");
   }
   weighButton.disabled = true;
