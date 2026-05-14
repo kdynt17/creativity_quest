@@ -1,14 +1,16 @@
-const weights = Array.from({ length: 12 }, (_, index) => ({
+const TOTAL_WEIGHTS = 8;
+const MAX_WEIGHS = 2;
+
+const weights = Array.from({ length: TOTAL_WEIGHTS }, (_, index) => ({
   id: index + 1,
   weight: 10,
   zone: "bank",
 }));
 
 const hints = [
-  "처음에 4개씩 둘로 나누어 무게를 비교했는가? 12개라면 한 번에 후보를 4개로 줄일 수 있다.",
-  "한쪽 접시가 올라가면 그 접시의 4개가 후보이고, 양쪽이 같다면 저울에 올리지 않은 4개가 후보다.",
-  "후보 4개 중 1개를 찾으려면 2개와 2개를 비교해 보자. 올라간 쪽의 2개가 다음 후보가 된다.",
-  "후보 2개가 남았다면 1개와 1개를 비교하면 된다. 올라간 쪽이 가벼운 추다.",
+  "처음에 4개씩 둘로 나누어 비교했는가? 그러면 1번을 써도 후보가 4개 남아서, 남은 1번으로는 반드시 찾을 수 없다.",
+  "3개의 추 중 1개가 가볍다면 1개와 1개를 비교하면 된다. 한쪽이 올라가면 그것이 정답이고, 수평이면 남은 1개가 정답이다.",
+  "처음 1번으로 후보를 3개 이하로 줄이려면 몇 개씩 올려야 할까? 3개와 3개를 비교해 보자.",
 ];
 
 const zones = Array.from(document.querySelectorAll("[data-zone]"));
@@ -36,9 +38,9 @@ function pickSecretId() {
   if (window.crypto?.getRandomValues) {
     const value = new Uint32Array(1);
     window.crypto.getRandomValues(value);
-    return (value[0] % 12) + 1;
+    return (value[0] % TOTAL_WEIGHTS) + 1;
   }
-  return Math.floor(Math.random() * 12) + 1;
+  return Math.floor(Math.random() * TOTAL_WEIGHTS) + 1;
 }
 
 function startGame() {
@@ -57,7 +59,7 @@ function startGame() {
   resultCard.textContent = "먼저 같은 개수의 추를 양쪽 접시에 올려 보자.";
   weighButton.disabled = false;
   answerButton.disabled = false;
-  showToast("새 문제가 시작됐다. 이번에도 3번 안에 찾을 수 있다.");
+  showToast("새 문제가 시작됐다. 이번에는 2번 안에 찾을 수 있다.");
 }
 
 function renderWeights() {
@@ -88,8 +90,8 @@ function renderHints() {
 }
 
 function updateUses() {
-  usesLeft.textContent = Math.max(0, 3 - weighCount);
-  weighButton.disabled = gameOver || weighCount >= 3;
+  usesLeft.textContent = Math.max(0, MAX_WEIGHS - weighCount);
+  weighButton.disabled = gameOver || weighCount >= MAX_WEIGHS;
 }
 
 function beginDrag(event) {
@@ -148,7 +150,7 @@ function tiltScale(direction) {
 }
 
 function weigh() {
-  if (gameOver || weighCount >= 3) return;
+  if (gameOver || weighCount >= MAX_WEIGHS) return;
   const left = getWeightsIn("left");
   const right = getWeightsIn("right");
   if (left.length === 0 || right.length === 0 || left.length !== right.length) {
@@ -173,8 +175,8 @@ function weigh() {
   }
 
   updateUses();
-  if (weighCount >= 3) {
-    showToast("저울을 3번 모두 사용했다. 이제 정답을 골라야 한다.");
+  if (weighCount >= MAX_WEIGHS) {
+    showToast("저울을 2번 모두 사용했다. 이제 정답을 골라야 한다.");
   }
 }
 
