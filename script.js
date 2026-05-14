@@ -12,6 +12,7 @@ const hints = [
 ];
 
 const zones = Array.from(document.querySelectorAll("[data-zone]"));
+const scaleWrap = document.querySelector(".scale-wrap");
 const resultCard = document.querySelector("#resultCard");
 const usesLeft = document.querySelector("#usesLeft");
 const weighButton = document.querySelector("#weighButton");
@@ -42,6 +43,7 @@ function startGame() {
   });
   renderWeights();
   renderHints();
+  resetScaleTilt();
   updateUses();
   resultCard.textContent = "먼저 같은 개수의 추를 양쪽 접시에 올려 보자.";
   weighButton.disabled = false;
@@ -83,6 +85,7 @@ function updateUses() {
 
 function beginDrag(event) {
   if (gameOver) return;
+  resetScaleTilt();
   const element = event.currentTarget;
   const id = Number(element.dataset.id);
   dragged = { element, id };
@@ -111,6 +114,7 @@ function endDrag(event) {
   dragged.element.removeEventListener("pointermove", moveDrag);
   dragged = null;
   renderWeights();
+  resultCard.textContent = "추를 다시 배치했다. 측정을 눌러 저울의 기울기를 확인하자.";
 }
 
 function findDropZone(x, y) {
@@ -123,6 +127,15 @@ function findDropZone(x, y) {
 
 function getWeightsIn(zone) {
   return weights.filter((weight) => weight.zone === zone);
+}
+
+function resetScaleTilt() {
+  scaleWrap.classList.remove("tilt-left-light", "tilt-right-light");
+}
+
+function tiltScale(direction) {
+  resetScaleTilt();
+  scaleWrap.classList.add(direction);
 }
 
 function weigh() {
@@ -140,12 +153,14 @@ function weigh() {
   const rightSum = right.reduce((sum, weight) => sum + weight.weight, 0);
 
   if (leftSum < rightSum) {
-    resultCard.textContent = `왼쪽이 더 가볍다. 후보: ${left.map((item) => item.id).join(", ")}번`;
+    tiltScale("tilt-left-light");
+    resultCard.textContent = "저울이 기울었다. 올라간 접시에 있는 추를 후보로 생각해 보자.";
   } else if (rightSum < leftSum) {
-    resultCard.textContent = `오른쪽이 더 가볍다. 후보: ${right.map((item) => item.id).join(", ")}번`;
+    tiltScale("tilt-right-light");
+    resultCard.textContent = "저울이 기울었다. 올라간 접시에 있는 추를 후보로 생각해 보자.";
   } else {
-    const outside = weights.filter((weight) => weight.zone !== "left" && weight.zone !== "right");
-    resultCard.textContent = `양쪽이 같다. 후보는 저울에 올리지 않은 ${outside.map((item) => item.id).join(", ")}번이다.`;
+    resetScaleTilt();
+    resultCard.textContent = "저울이 수평이다. 저울에 올리지 않은 추 중에서 후보를 찾아보자.";
   }
 
   updateUses();
