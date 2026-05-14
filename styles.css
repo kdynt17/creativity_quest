@@ -156,6 +156,7 @@ p strong {
   justify-content: center;
   gap: 6px;
   padding: 8px 8px 18px;
+  transition: transform 220ms ease;
 }
 
 .pan-left {
@@ -185,6 +186,7 @@ p strong {
   border: 4px solid var(--line);
   border-radius: 999px;
   background: #a79b55;
+  transition: transform 220ms ease;
 }
 
 .stand {
@@ -224,6 +226,30 @@ p strong {
   color: #fff8e6;
   font-size: 1.1rem;
   z-index: 2;
+}
+
+.scale-wrap.tilt-left-light .pan-left {
+  transform: translateY(-22px);
+}
+
+.scale-wrap.tilt-left-light .pan-right {
+  transform: translateY(22px);
+}
+
+.scale-wrap.tilt-left-light .beam {
+  transform: rotate(5deg);
+}
+
+.scale-wrap.tilt-right-light .pan-left {
+  transform: translateY(22px);
+}
+
+.scale-wrap.tilt-right-light .pan-right {
+  transform: translateY(-22px);
+}
+
+.scale-wrap.tilt-right-light .beam {
+  transform: rotate(-5deg);
 }
 
 .answer-zone {
