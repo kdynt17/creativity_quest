@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>가벼운 추 찾기</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="game-shell">
+    <section class="story-panel" aria-labelledby="title">
+      <div class="topbar">
+        <span>문제 006</span>
+        <span>이진 탐색 동기부여</span>
+        <span><strong id="usesLeft">3</strong>회</span>
+      </div>
+      <h1 id="title">가벼운 추를 3번 안에 찾아라</h1>
+      <p>
+        모양이 완전히 같은 추가 8개 있다. 그 중 1개만 약간 가볍다.
+        아래의 추를 저울 접시로 드래그해서 올린 뒤, 가운데 버튼을 눌러 결과를 확인하자.
+      </p>
+      <p>
+        저울은 최대 <strong>3번</strong>만 사용할 수 있다. 결과를 바탕으로 정답 칸에 추를 놓고
+        <strong>정답</strong> 버튼을 눌러라.
+      </p>
+    </section>
+
+    <section class="play-area" aria-label="저울 게임">
+      <div class="hint-box" aria-live="polite">
+        <div class="hint-header">
+          <span>힌트</span>
+          <button id="hintButton" type="button">힌트 보기</button>
+        </div>
+        <ol id="hintList"></ol>
+      </div>
+
+      <div class="result-card" id="resultCard" aria-live="polite">
+        먼저 같은 개수의 추를 양쪽 접시에 올려 보자.
+      </div>
+
+      <div class="scale-wrap">
+        <div class="pan pan-left" data-zone="left" aria-label="왼쪽 접시">
+          <span>왼쪽</span>
+        </div>
+        <div class="pan pan-right" data-zone="right" aria-label="오른쪽 접시">
+          <span>오른쪽</span>
+        </div>
+        <div class="beam"></div>
+        <div class="stand"></div>
+        <button id="weighButton" class="weigh-button" type="button" aria-label="저울 사용">측정</button>
+      </div>
+
+      <div class="answer-zone" data-zone="answer" aria-label="정답 칸">
+        <span>정답 추</span>
+      </div>
+
+      <div class="bank" data-zone="bank" aria-label="추 보관함"></div>
+
+      <div class="actions">
+        <button id="answerButton" type="button">정답</button>
+        <button id="restartButton" type="button">재시작</button>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <canvas id="confetti" aria-hidden="true"></canvas>
+
+  <script src="script.js"></script>
+</body>
+</html>
