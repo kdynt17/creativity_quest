@@ -225,6 +225,24 @@ p strong {
   z-index: 2;
 }
 
+.attempts {
+  position: absolute;
+  left: calc(50% + 50px);
+  bottom: 76px;
+  border: 4px solid var(--line);
+  border-radius: 8px;
+  background: #fff7dc;
+  padding: 8px 12px;
+  font-size: clamp(0.95rem, 2.8vw, 1.25rem);
+  font-weight: 900;
+  white-space: nowrap;
+  z-index: 3;
+}
+
+.attempts strong {
+  color: var(--red);
+}
+
 .scale-wrap.tilt-left-light .pan-left {
   transform: translateY(-22px);
 }
@@ -331,21 +349,6 @@ p strong {
   gap: 12px;
 }
 
-.attempts {
-  grid-column: 1 / -1;
-  justify-self: end;
-  border: 4px solid var(--line);
-  border-radius: 8px;
-  background: #fff7dc;
-  padding: 8px 14px;
-  font-size: clamp(1.1rem, 3.4vw, 1.55rem);
-  font-weight: 900;
-}
-
-.attempts strong {
-  color: var(--red);
-}
-
 .actions button {
   min-height: 58px;
   font-size: clamp(1.25rem, 4vw, 1.8rem);
@@ -399,12 +402,18 @@ p strong {
   }
 
   .scale-wrap {
-    height: 330px;
+    height: 300px;
   }
 
   .pan {
     width: 43%;
-    min-height: 112px;
+    min-height: 90px;
+  }
+
+  .attempts {
+    left: calc(50% + 42px);
+    bottom: 74px;
+    padding: 7px 9px;
   }
 
   .weight {
