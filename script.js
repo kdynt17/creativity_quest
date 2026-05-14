@@ -32,8 +32,17 @@ let dragged = null;
 let confettiPieces = [];
 let confettiFrame = 0;
 
+function pickSecretId() {
+  if (window.crypto?.getRandomValues) {
+    const value = new Uint32Array(1);
+    window.crypto.getRandomValues(value);
+    return (value[0] % 12) + 1;
+  }
+  return Math.floor(Math.random() * 12) + 1;
+}
+
 function startGame() {
-  secretId = Math.floor(Math.random() * 12) + 1;
+  secretId = pickSecretId();
   weighCount = 0;
   revealedHints = 0;
   gameOver = false;
