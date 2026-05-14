@@ -152,6 +152,7 @@ p strong {
   background: linear-gradient(#fbef9f, #d3bb62);
   box-shadow: 0 8px 0 rgba(82, 56, 28, 0.35);
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-end;
   justify-content: center;
   gap: 6px;
@@ -387,11 +388,12 @@ p strong {
   }
 
   .scale-wrap {
-    height: 290px;
+    height: 330px;
   }
 
   .pan {
     width: 43%;
+    min-height: 112px;
   }
 
   .weight {
