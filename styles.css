@@ -121,17 +121,6 @@ p strong {
   line-height: 1.35;
 }
 
-.result-card {
-  grid-column: 1 / -1;
-  min-height: 58px;
-  border: 4px solid var(--line);
-  border-radius: 8px;
-  background: #fffaf0;
-  padding: 10px 14px;
-  font-size: clamp(1.1rem, 3vw, 1.55rem);
-  font-weight: 900;
-}
-
 .scale-wrap {
   position: relative;
   height: 330px;
