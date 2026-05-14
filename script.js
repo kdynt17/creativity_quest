@@ -1,14 +1,14 @@
-const weights = Array.from({ length: 8 }, (_, index) => ({
+const weights = Array.from({ length: 12 }, (_, index) => ({
   id: index + 1,
   weight: 10,
   zone: "bank",
 }));
 
 const hints = [
-  "처음에는 3개와 3개를 비교해 보자. 어느 쪽이 가벼우면 그 3개 안에 정답이 있다.",
-  "3개와 3개가 같다면 남은 2개 중 하나가 가벼운 추다.",
-  "후보가 3개라면 1개와 1개를 비교하자. 같으면 남은 1개가 정답이다.",
-  "후보가 2개라면 1개와 1개를 비교하면 바로 결정된다.",
+  "처음에 4개씩 둘로 나누어 무게를 비교했는가? 12개라면 한 번에 후보를 4개로 줄일 수 있다.",
+  "한쪽 접시가 올라가면 그 접시의 4개가 후보이고, 양쪽이 같다면 저울에 올리지 않은 4개가 후보다.",
+  "후보 4개 중 1개를 찾으려면 2개와 2개를 비교해 보자. 올라간 쪽의 2개가 다음 후보가 된다.",
+  "후보 2개가 남았다면 1개와 1개를 비교하면 된다. 올라간 쪽이 가벼운 추다.",
 ];
 
 const zones = Array.from(document.querySelectorAll("[data-zone]"));
@@ -33,7 +33,7 @@ let confettiPieces = [];
 let confettiFrame = 0;
 
 function startGame() {
-  secretId = Math.floor(Math.random() * 8) + 1;
+  secretId = Math.floor(Math.random() * 12) + 1;
   weighCount = 0;
   revealedHints = 0;
   gameOver = false;
